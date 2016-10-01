@@ -1,30 +1,32 @@
-from urllib.request import Request, urlopen
-import re
+from managedata import *
+from crawler import *
+
+def main():
+    create_project_dir("data")
+    create_file("data/product_list.txt")
+    product_list = load_file("data/product_list.txt")
+
+    add_product(product_list)
+
+    save_file(product_list, "data/product_list.txt")
 
 
-url = input("URL DO PRODUTO: ")
-req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-html = urlopen(req).read().decode('utf-8')
+def show_product_list(product_list):
+    pass
 
-# Define regex para site específico.
-if re.search("www.submarino.com", url) or re.search("www.americanas.com", url):
-    produto = r"description\" content=\"(.*?)\""
-    preco = r"price/salesPrice\".*?>(.*?)</span>"
-else:
-    produto = ""
-    preco = ""
-    print("Erro!")
+def get_all_prices():
+    pass
 
-print()
+def add_product(product_list):
+    url = input("Adicionar produto ---------------------------------------- \nURL DO PRODUTO: ")
+    item = priceCrawler(url)
+    print("\nPRODUTO ADICIONADO: " + item.produto)
+    item.get_price()
 
-# Coleta o nome do produto
-regex = re.compile(produto)
-matches = re.findall(regex, html)
-print("PRODUTO >> " + matches[0])
+    item_info = [item.url, item.produto, item.precos]
+    create_product_file(item_info)
+    #product_list.append([item.produto, item_path])
 
-# Coleta o preço do produto
-regex = re.compile(preco)
-matches = re.findall(regex, html)
-print("PRECO >> " + matches[0])
+    return item
 
-print("\n--------------------------------------\n")
+main()

@@ -15,11 +15,6 @@ class priceCrawler:
         self.get_regex()
         self.get_product_name()
 
-
-    def new_product():
-        pass
-
-
     # Define regex para site específico.
     def get_regex(self):
         if re.search("www.submarino.com", self.url) or re.search("www.americanas.com", self.url):
@@ -64,15 +59,3 @@ class priceCrawler:
         for i in self.precos:
             print("DATA: {} - PREÇO: {}".format(i["Data"], i["Preco"]))
         print("-----------------------------------------------------------")
-
-
-url = input("URL DO PRODUTO: ")
-produto = priceCrawler(url)
-
-produto.get_price()
-produto.get_price()
-produto.get_price()
-produto.get_price()
-produto.get_price()
-
-produto.show_history()
