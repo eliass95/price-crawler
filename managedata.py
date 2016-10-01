@@ -27,8 +27,3 @@ def save_file(data, path):
     with open(path, mode="w", encoding="utf-8") as dataFile:
         json.dump(data, dataFile)
         print("Dados salvos no arquivo.")
-
-
-def create_product_file(item):
-    create_file("data/product1.txt")
-    save_file(item, "data/product1.txt")

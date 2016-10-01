@@ -54,6 +54,7 @@ class priceCrawler:
     # Exibe histórico de preços
     def show_history(self):
         print("\nPRODUTO: {}".format(self.produto))
+        print("\nURL: {}".format(self.url))
         print("-----------------------------------------------------------")
 
         for i in self.precos:
