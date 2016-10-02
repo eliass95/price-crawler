@@ -7,8 +7,8 @@ from crawler import *
 def list_products(itens):
     print("\nLISTA DE PRODUTOS -------------------------------------------------\n")
     for i in itens:
-        print("{} - {} - {}".format(itens.index(i) + 1,
-                i.produto[0:25], i.url[0:25]), i.precos[-1]["Preco"])
+        print("{} - {} - ".format(itens.index(i) + 1, i.produto[0:55].ljust(50)),
+            i.precos[-1]["Preco"], "\n   ",  i.url[0:35], "\n")
     print("\n-------------------------------------------------------------------\n")
 
 
@@ -35,10 +35,12 @@ def history(itens):
         else:
             print("\n" * 3)
             for i in itens:
+                print("\n"*2)
                 i.show_history()
     except:
         print("\n" * 3)
         for i in itens:
+            print("\n"*2)
             i.show_history()
 
     cont = input("Pressione uma tecla para continuar")
