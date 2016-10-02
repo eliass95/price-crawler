@@ -1,69 +1,58 @@
 from managedata import *
-from crawler import *
-import time
+from mainfunctions import *
 
 def main():
-    create_project_dir("data")
-    create_file("data/product_data.txt")
-
     while True:
         print("\n" * 50)
 
+        # Carrega o arquivo para variavel itens
         try:
-            item = load_product()
+            itens = load_file("data/product_data.txt")
+            list_products(itens)
         except:
-            print("Nenhum produto foi adicionado ainda...")
-            item = add_product()
+            itens = []
+            print(".. Nenhum produto adicionado ainda.\n")
 
-        print("1 - Alterar produto")
-        print("2 - Ver historico de preco")
-        print("3 - Coletar preço")
-        print("4 - Sair")
+        # Exibe as opções
+        print("0) Coletar preços de hora em hora\n")
+        print("1) Adicionar produto")
+        print("2) Ver historico de preço")
+        print("3) Coletar preço agora")
+        print("4) Deletar produto")
+        print("5) Sair")
+        print("--------------------------")
         op = input("Selecione uma opção: ")
 
-        if op == "1":
-            confirm = input("\nEssa opção irá substituir o produto anterior, deseja continuar? (s/n)")
-            if confirm[0].lower() == "s":
-                item = add_product()
-            else:
-                print("\nNenhuma alteração foi feita.")
-                time.sleep(2)
-                continue
+        if op == "0":
+            crawl_prices()
+
+        elif op == "1":
+            itens = add_product(itens)
 
         elif op == "2":
-            item.show_history()
-            cont = input("\nPressione qualquer tecla para continuar... ")
-            continue
+            history(itens)
 
         elif op == "3":
-            item.get_price()
-            print("Coletando preço atual...")
-            time.sleep(2)
+            itens = get_all_prices(itens)
 
         elif op == "4":
-            print("Saindo...")
+            itens = del_product(itens)
+
+        elif op == "5":
+            print("Encerrando... ")
             break
 
-        save_product(item)
+        else:
+            print("Selecione uma opção válida")
 
-# Carrega dados do arquivo e atribui a classe item.
-def load_product():
-    product_data = load_file("data/product_data.txt")
-    item = priceCrawler(product_data[0])
-    item.produto = product_data[1]
-    item.precos = product_data[2]
-    return item
+        save_file(itens, "data/product_data.txt")
 
-# Coleta dados da classe item e grava para o aquivo
-def save_product(item):
-    item_info = [item.url, item.produto, item.precos]
-    save_file(item_info, "data/product_data.txt")
 
-def add_product():
-    url = input("\nURL DO PRODUTO: ")
-    item = priceCrawler(url)
-    print("\nPRODUTO ADICIONADO: " + item.produto)
-    item.get_price()
-    return item
+create_project_dir("data")
+
+# Habilitar a função crawl_prices para coletar
+# preços automaticamente de hora em hora
+
+# crawl_prices()
 
 main()
