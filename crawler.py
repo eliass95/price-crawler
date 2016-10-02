@@ -20,6 +20,9 @@ class priceCrawler:
         if re.search("www.submarino.com", self.url) or re.search("www.americanas.com", self.url):
             self.produto_regex = r"description\" content=\"(.*?)\""
             self.preco_regex = r"price/salesPrice\".*?>(.*?)</span>"
+
+        # Para utilizar em outros sites deve ser adicionado a expressão regular correspondente.
+
         else:
             self.produto_regex = ""
             self.preco_regex = ""
@@ -27,10 +30,14 @@ class priceCrawler:
 
     # Faz requisição ao site e salva o html.
     def get_html(self, url):
-        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        html = urlopen(req).read().decode('utf-8')
+        try:
+            req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            html = urlopen(req).read().decode('utf-8')
 
-        return html
+            return html
+        except:
+            print("Não foi possível acessar a url")
+            return "ERRO"
 
     # Coleta o nome do produto
     def get_product_name(self):
