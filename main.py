@@ -1,5 +1,6 @@
 from managedata import *
 from mainfunctions import *
+import time
 
 def main():
     while True:
@@ -24,7 +25,14 @@ def main():
         op = input("Selecione uma opção: ")
 
         if op == "0":
-            crawl_prices()
+            print("\nCOLETANDO PREÇOS DE HORA EM HORA!")
+            while True:
+                hora = time.strftime("%d %b %Y - %H:%M:%S", time.localtime())
+                print("\nHORA {}".format(hora))
+                itens = get_all_prices(itens)
+
+                save_file(itens, "data/product_data.txt")
+                time.sleep(3600)
 
         elif op == "1":
             itens = add_product(itens)
